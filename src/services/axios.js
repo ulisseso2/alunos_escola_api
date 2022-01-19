@@ -1,7 +1,8 @@
 // Para escolher as requisições na API
 
-/*import axios from 'axios';
+import axios from 'axios';
 
-export default axios.create({
-  baseURL: 'https://escola.odisseiaonline.com.br',
-});*/
+const axiosConfig = axios.create();
+axiosConfig.defaults.baseURL = 'https://escola.odisseiaonline.com.br';
+
+export default axiosConfig;
