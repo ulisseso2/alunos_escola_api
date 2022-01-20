@@ -4,9 +4,9 @@ import { persistReducer } from 'redux-persist';
 export default (reducers) => {
   const persistReducers = persistReducer(
     {
-      key: 'NOME-DA-APLICACAO',
+      key: 'ESCOLA_REACT',
       storage,
-      whitelist: ['example'], //O único módulo que quero salvar nome da rootReducer
+      whitelist: ['auth'], //O único módulo que quero salvar nome da rootReducer
     },
     reducers
   );

@@ -28,12 +28,10 @@ export default function Alunos() {
           <div key={String(aluno.id)}>
             <ProfilePicture>
               {get(aluno, 'Fotos[0].url', false) ? (
-                <img src={aluno.Fotos[0].url1} alt="" />
+                <img src={aluno.Fotos[0].url} alt="" />
               ) : (
                 <FaUserAlt className="fotoUser" size={36} />
               )}
-
-              <FaUserAlt className="fotoUser" size={30} />
             </ProfilePicture>
             <span>{aluno.nome}</span>
             <span>{aluno.email}</span>

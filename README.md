@@ -1,6 +1,6 @@
 Esse fou um projeto criado durante o estudo de React
 O objetivo é consumir uma API criada anteriormete.
-Neste projeto usei React e algumas bibliotecas como:
+Neste projeto usei React e alguns pacotes como:
 
 axios
 history
@@ -14,4 +14,3 @@ redux
 redux-persist
 redux-saga
 styled-components
-
