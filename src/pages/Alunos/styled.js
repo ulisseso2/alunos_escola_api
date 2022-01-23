@@ -13,6 +13,21 @@ export const AlunoContainer = styled.div`
   div + div {
     border-top: 1px solid #eee;
   }
+  a {
+    color: ${colors.primaryDarkColor};
+    cursor: pointer;
+  }
+  .delete:hover,
+  .warn:hover {
+    color: red;
+  }
+  .edit:hover {
+    color: ${colors.primaryColor};
+  }
+  .warn {
+    color: orange;
+    cursor: pointer;
+  }
 `;
 
 export const ProfilePicture = styled.div`
