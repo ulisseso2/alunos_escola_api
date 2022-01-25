@@ -58,6 +58,7 @@ export const Container = styled.section`
   padding: 15px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 
   .voltar {
     display: flex;

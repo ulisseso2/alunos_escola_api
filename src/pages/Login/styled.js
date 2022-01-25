@@ -9,6 +9,7 @@ export const Form = styled.form`
     flex-direction: column;
     margin-bottom: 10px;
     font-weight: bold;
+    text-align: left;
   }
   input {
     height: 20px;

@@ -8,6 +8,7 @@ export const Form = styled.form`
     flex-direction: column;
     margin-bottom: 20px;
     font-weight: bold;
+    text-align: left;
   }
   input {
     margin-top: 5px;

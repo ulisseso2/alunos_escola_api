@@ -7,20 +7,23 @@ import {
   FaWindowClose,
   FaUserCircle,
   FaExclamationTriangle,
+  FaPlusCircle,
 } from 'react-icons/fa';
 
 import axios from '../../services/axios';
 
 import { Container } from '../../styles/Globalstyles';
 import { useEffect, useState } from 'react';
-import { AlunoContainer, ProfilePicture } from './styled';
+import { AlunoContainer, ProfilePicture, NovoAluno } from './styled';
 
 import Loading from '../../components/Loading';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
   const [isLoading, setIsloading] = useState(false);
+  const iduser = useSelector((state) => state.auth.user.id);
 
   useEffect(() => {
     async function getData() {
@@ -34,6 +37,11 @@ export default function Alunos() {
 
   const handleDeleteAsk = (e) => {
     e.preventDefault();
+    const id = iduser;
+    if (!id) {
+      toast.error('Você precisa fazer Login');
+      return;
+    }
     const exclamation = e.currentTarget.nextSibling;
     exclamation.setAttribute('display', 'block');
     e.currentTarget.remove();
@@ -59,10 +67,21 @@ export default function Alunos() {
     }
   };
 
+  const handleEdit = () => {
+    const id = iduser;
+    if (!id) {
+      toast.error('Você precisa fazer Login');
+    }
+  };
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
       <h1>Alunos</h1>
+      <NovoAluno to="/aluno">
+        Novo Aluno
+        <FaPlusCircle className="plusCircle" />
+      </NovoAluno>
       <AlunoContainer>
         {alunos.map((aluno, index) => (
           <div key={String(aluno.id)}>
@@ -75,7 +94,7 @@ export default function Alunos() {
             </ProfilePicture>
             <span>{aluno.nome}</span>
             <span>{aluno.email}</span>
-            <Link to={`/aluno/${aluno.id}/edit`}>
+            <Link onClick={handleEdit} to={`/aluno/${aluno.id}/edit`}>
               <FaEdit className="edit" size={18} />
             </Link>
 
