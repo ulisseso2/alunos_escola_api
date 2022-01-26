@@ -22,3 +22,30 @@ export const Form = styled.form`
     border: 2px solid ${colors.primaryColor};
   }
 `;
+
+export const ProfilePicture = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 20px;
+  position: relative;
+  margin-top: 20px;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    background-color: ${colors.hotColor};
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+  }
+`;

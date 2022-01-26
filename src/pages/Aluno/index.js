@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { get, isInteger } from 'lodash';
-import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { isEmail, isInt, isFloat } from 'validator';
-
-import { Container } from '../../styles/Globalstyles';
-import { Form } from './styled';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Loading from '../../components/Loading';
-import axios from '../../services/axios';
-import history from '../../services/history';
 import { useDispatch } from 'react-redux';
-import * as actions from '../../store/modules/auth/actions';
+import { FaEdit, FaUserCircle, FaCamera } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-export default function Aluno({ match }) {
-  const dispapath = useDispatch();
-  const id = get(match, 'params.id', 0);
+import axios from '../../services/axios';
+import { Container } from '../../styles/Globalstyles';
+import { Form, ProfilePicture } from './styled';
+import Loading from '../../components/Loading';
+import * as actions from '../../store/modules/auth/actions';
+import history from '../../services/history';
+
+export default function Aluno({ match, history }) {
+  const dispatch = useDispatch();
+
+  const id = get(match, 'params.id', '');
   const [nome, setNome] = useState('');
   const [sobrenome, setSobrenome] = useState('');
   const [email, setEmail] = useState('');
   const [idade, setIdade] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
+  const [foto, setFoto] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     if (!id) return;
 
@@ -30,29 +33,32 @@ export default function Aluno({ match }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(`/alunos/${id}`);
-        const Foto = get(data, 'Foto[0].url', '');
+        setFoto(get(data, 'Fotos[0].url', ''));
+
         setNome(data.nome);
         setSobrenome(data.sobrenome);
         setEmail(data.email);
         setIdade(data.idade);
         setPeso(data.peso);
         setAltura(data.altura);
+
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
         const status = get(err, 'response.status', 0);
         const errors = get(err, 'response.data.errors', []);
+
         if (status === 400) errors.map((error) => toast.error(error));
         history.push('/');
       }
     }
+
     getData();
-  }, [id]);
+  }, [id, history]);
 
   const handleSubmit = async (e) => {
-    let formErrors = false;
-
     e.preventDefault();
+    let formErrors = false;
 
     if (nome.length < 3 || nome.length > 255) {
       formErrors = true;
@@ -86,6 +92,7 @@ export default function Aluno({ match }) {
     if (formErrors) return;
     try {
       setIsLoading(true);
+
       if (id) {
         await axios.put(`/alunos/${id}`, {
           nome,
@@ -124,10 +131,19 @@ export default function Aluno({ match }) {
       if (status === 401) dispapath(actions.loginFailure());
     }
   };
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
       <h1>{!id ? 'Cadastrar Aluno' : 'Editar Aluno'}</h1>
+      {id && (
+        <ProfilePicture>
+          {foto ? <img src={foto} alt={nome} /> : <FaUserCircle size={150} />}
+          <Link to={`/fotos/${id}`}>
+            <FaCamera size={15} />
+          </Link>
+        </ProfilePicture>
+      )}
       <Form onSubmit={handleSubmit}>
         <h4>Aluno {!id ? '' : id}</h4>
         <input
@@ -171,3 +187,8 @@ export default function Aluno({ match }) {
     </Container>
   );
 }
+
+Aluno.propTypes = {
+  match: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape([]).isRequired,
+};
